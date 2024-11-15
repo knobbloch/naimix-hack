@@ -1,0 +1,19 @@
+services:
+  namix-back:
+    build:
+      dockerfile: Dockerfile-test
+    container_name: namix-back
+    env_file:
+      - .env
+    environment:
+      - TZ=Asia/Yekaterinburg
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - 8000:8000
+    develop:
+      watch:
+        - action: sync
+          path: ./app
+          target: /app/app
