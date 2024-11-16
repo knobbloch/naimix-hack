@@ -1,6 +1,8 @@
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 import db.db as db
+from .team import team_router
+from .analysis import analysis_router
 
 
 @asynccontextmanager
@@ -9,6 +11,9 @@ async def lifespan(app: FastAPI):
     yield
 
 app = FastAPI(lifespan=lifespan)
+
+app.include_router(team_router)
+app.include_router(analysis_router)
 
 
 @app.get("/")
