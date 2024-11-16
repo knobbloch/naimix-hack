@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import styles from "./styles/app.module.css";
+import CosmogramForm from "./components/CosmogramForm";
+import Cosmogram from "./components/Cosmogram";
 
-function App() {
+const App = () => {
+  const [formData, setFormData] = useState(null);
+
+  const handleFormSubmit = (data) => {
+    setFormData(data); // Получаем данные из формы
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div
+      style={{ textAlign: "center", padding: "20px" }}
+      className={styles.app}
+    >
+      <h1>Космограмма</h1>
+      <CosmogramForm onSubmit={handleFormSubmit} />
+      {formData && <Cosmogram formData={formData} />}
     </div>
   );
-}
+};
 
 export default App;
