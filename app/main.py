@@ -1,7 +1,14 @@
 from fastapi import FastAPI
+from contextlib import asynccontextmanager
 import db.db as db
 
-app = FastAPI()
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    await db.create_tables()
+    yield
+
+app = FastAPI(lifespan=lifespan)
 
 
 @app.get("/")
