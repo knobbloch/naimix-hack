@@ -5,6 +5,7 @@ services:
     container_name: namix-back
     environment:
       - TZ=Asia/Yekaterinburg
+      - DATABASE_URL=postgresql://postgres:postgres@namix-db:5432/namix
     volumes:
       - /etc/timezone:/etc/timezone:ro
       - /etc/localtime:/etc/localtime:ro
@@ -15,3 +16,20 @@ services:
         - action: sync
           path: ./app
           target: /app/app
+    depends_on:
+      - database
+
+  database:
+    image: postgres
+    container_name: namix-db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: namix
+    volumes:
+      - namix-db:/var/lib/postgresql/data
+    ports:
+      - 5438:5432
+
+volumes:
+  namix-db:
