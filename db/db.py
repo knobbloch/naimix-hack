@@ -1,5 +1,6 @@
 import psycopg
 from psycopg.rows import dict_row
+import uuid
 import os
 
 DATABASE_URL = os.getenv("DATABASE_URL")
@@ -32,3 +33,15 @@ async def create_tables():
         await execute_query(query)
     except Exception as e:
         print("Error while creating tables", e)
+
+
+async def add_team(name: str):
+    id = uuid.uuid4()
+    query = "INSERT INTO teams (id, name) VALUES (%s, %s);"
+    await execute_query(query, id, name)
+    return id
+
+
+async def add_member(name: str, birthdate: str, team_id: uuid):
+    query = "INSERT INTO members (name, birthdate, team_id) VALUES (%s, %s, %s);"
+    await execute_query(query, name, birthdate, team_id)
